@@ -9,6 +9,10 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+//Step 5 A)
+//Adding in the variable.
+
+var fs = require('fs');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,17 +29,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-// catch 404 and forward to error handler
+//Step 2 - Catching the 404 and forwarding to the error handler.
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handlers
 
-// development error handler
-// will print stacktrace
+//Step 3 - Error handing.
+// This will print the stacktrace.
+
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -46,8 +50,9 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+
+//Step 4
+//This is the production error handler, it makes sure the stacktraces are not leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
@@ -56,5 +61,16 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+//Step 5
+//This is a Missing File Error Handler.
+
+fs.readFile('public/stylesheets/style.css', (err, data) => {
+  if (err) {
+    console.error('There was an error reading the file!', err);
+    return;
+  }
+  // Otherwise do noting
+});
 
 module.exports = app;
